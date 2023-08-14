@@ -1,26 +1,37 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <Navigation />
+  <router-view />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import { ref } from 'vue';
+import store from "./store/index";
+import { supabase } from "./supabase/init";
+import Navigation from './components/Navigation.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Navigation
+  },
+  setup(){
+    // Create data / vars
+    const appReady = ref(null);
+
+    // Check to see if user is already logged in
+    const user = supabase.auth.user();
+
+    // If user does not exist, need to make app ready
+    if(!user){
+      appReady.value = true;
+    }
+
+    supabase.auth.onAuthStateChange((_, session) => {
+      store.methods.setuser(session);
+      appReady.value=true;
+    });
+
+    return { appReady };
   }
 }
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
