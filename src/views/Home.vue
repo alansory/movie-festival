@@ -69,7 +69,6 @@ export default{
   },
   methods: {
     navigateToMovieDetail(movie) {
-      // store._mutations.setMovieDetail(movie);
       store.commit('setMovieDetail', movie);
     }
   },

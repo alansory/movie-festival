@@ -16,6 +16,7 @@
           action="#"
           data-type-btn="form-btn"
           class="sidebar-form nav-form-btn"
+          @keyup.enter="submitSearch"
         >
           <button 
             class="sidebar-search-btn nav-search-btn"
@@ -27,8 +28,7 @@
             type="text"
             class="sidebar-search-input"
             placeholder="Search Movies ..."
-            name=""
-            id=""
+            v-model="searchTerm"
           />
         </form>
         <h3 class="secondary-title">Search</h3>
@@ -93,6 +93,7 @@ export default {
     const isActive = ref(false);
     const router = useRouter();
     const navigationRef = ref(null);
+    const searchTerm = ref('');
     const user = computed (() => store.state.user);
     const logout = async () => {
       await supabase.auth.signOut();
@@ -106,7 +107,12 @@ export default {
         isActive.value = false;
       }
     });
-    return  { logout, user, isActive, navigationRef, activePage, setActivePage };
+    const submitSearch = () => {
+      router.push({ name: 'Search', query: { q: searchTerm.value } });
+      searchTerm.value = '';
+    };
+
+    return  { logout, user, isActive, navigationRef, activePage, setActivePage, searchTerm, submitSearch };
   }
 }
 </script>

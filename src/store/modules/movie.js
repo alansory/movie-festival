@@ -1,4 +1,4 @@
-import { fetchMovieLists, fetchTrandingLists, fetchMovieDetail, updateMovie } from '@/supabase/movie';
+import { fetchMovieLists, fetchTrandingLists, fetchMovieDetail, updateMovie, searchMovie } from '@/supabase/movie';
 
 const state = {
   list:[],
@@ -28,6 +28,10 @@ const actions = {
   async fetchDetail({ commit }, id) {
     const data = await fetchMovieDetail(id);
     commit('setDetail', data)
+  },
+  async searchMovie({ commit }, query){
+    const data = await searchMovie(query);
+    commit('setMovies', data)
   },
   async updateMovie({ commit }, payload) {
     const data = await updateMovie(payload.id, payload);

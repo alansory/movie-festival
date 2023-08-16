@@ -3,7 +3,7 @@
   <section class="discover-section">
     <section class="section-header">
       <header class="header-filter">
-        <h1 class="header-title">Trending Movies</h1>
+        <h1 class="header-title">{{ searchTerm }}</h1>
         <button class="header-filter-btn">Genre</button>
       </header>
       <div class="header-btns-container">
@@ -35,7 +35,6 @@
           </button>
           <div class="movie-info">
             <p class="movie-title">{{ movie.title }}</p>
-            <p class="views-count">{{ movie.view_count }} views</p>
           </div>
         </router-link>
       </div>
@@ -61,10 +60,13 @@
 
 <script>
 import store from '@/store/index';
-import { ref, onMounted } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import Pagination from '../components/paginations/Pagination';
 export default{
-  name: "Trending",
+  name: "Search",
+  props:{
+    searchTerm: String
+  },
   components:{
     Pagination
   },
@@ -73,7 +75,7 @@ export default{
       store.commit('setMovieDetail', movie);
     }
   },
-  setup() {
+  setup(props) {
     const movieLists = ref([]);
     const isLoaded = ref(false);
     const pagination = ref({
@@ -82,8 +84,14 @@ export default{
       total_results: 0,
       current_page_last: 0,
     });
+    watch(() => props.searchTerm, async (newSearchTerm) => {
+      await store.dispatch('movies/searchMovie', newSearchTerm);
+      pagination.value = store.state.movies.pagination;
+      movieLists.value = store.state.movies.list;
+      isLoaded.value = store.state.movies.isLoaded;
+    });
     onMounted(async () => {
-      await store.dispatch('movies/fetchTrending');
+      await store.dispatch('movies/searchMovie', props.searchTerm);
       pagination.value = store.state.movies.pagination;
       movieLists.value = store.state.movies.list;
       isLoaded.value = store.state.movies.isLoaded;
