@@ -252,6 +252,10 @@
   transform: rotate(360deg);
 }
 
+.bx{
+  vertical-align: middle;
+}
+
 @keyframes icon-anim {
   0% {
     transform: scale(1.05) rotate(20deg);

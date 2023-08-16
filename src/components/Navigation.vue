@@ -1,5 +1,9 @@
 <template>
-  <nav class="movie-sidebar-nav" :class="{active: isActive}">
+  <nav 
+    ref="navigationRef"
+    class="movie-sidebar-nav" 
+    :class="{active: isActive}"  
+  >
     <div class="sidebar-web-logo">
       <figure class="logo-container">
         <img src="../assets/images/web-logo.png" class="logo-img" alt="" />
@@ -71,6 +75,7 @@ import store from "../store/index";
 import { computed, ref } from "vue";
 import { supabase } from "../supabase/init";
 import { useRouter } from "vue-router";
+import { onClickOutside } from '@vueuse/core';
 
 export default {
   name: 'Navigation',
@@ -86,12 +91,18 @@ export default {
   setup(){
     const isActive = ref(false);
     const router = useRouter();
+    const navigationRef = ref(null);
     const user = computed (() => store.state.user);
     const logout = async () => {
       await supabase.auth.signOut();
       router.push({name : "Home"});
     };
-    return  { logout, user, isActive };
+    onClickOutside(navigationRef, () => {
+      if (isActive.value) {
+        isActive.value = false;
+      }
+    });
+    return  { logout, user, isActive, navigationRef };
   }
 }
 </script>

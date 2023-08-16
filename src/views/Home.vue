@@ -1,6 +1,6 @@
 <template>
   <div class="overlay-main"></div>
-  <section class="section-1">
+  <section class="discover-section">
     <section class="section-header">
       <header class="header-filter">
         <h1 class="header-title">Discover Movies</h1>
@@ -16,11 +16,13 @@
     </section>
     <main class="movie-main">
       <div class="movie-cards" v-if="isLoaded">
-        <div
+        <router-link
           class="movie-card"
           v-for="movie in movieLists"
           :key="movie.id"
-        >
+          @click="navigateToMovieDetail(movie)"
+          :to="{ name: 'MovieDetail', params: { movieId: movie.id } }"
+          >
           <img 
             class="movie-img"
             :alt="movie.title"
@@ -34,15 +36,15 @@
           <div class="movie-info">
             <p class="movie-title">{{ movie.title }}</p>
           </div>
-        </div>
+        </router-link>
       </div>
       <div v-else class="loading">
         <div class="placeholder"></div>
         <div class="loading-spinner"></div>
         <div class="loading-spinner2"></div>
       </div>
-      <section class="movie-pagination">
-
+      <section v-if="isLoaded" class="movie-pagination">
+        <Pagination :pagination="pagination" />
       </section>
       <footer>
         <p>
@@ -57,30 +59,37 @@
 </template>
 
 <script>
+import store from '@/store/index';
 import { ref, onMounted } from 'vue';
-
+import Pagination from '../components/paginations/Pagination';
 export default{
   name: "Home",
-  components:{},
+  components:{
+    Pagination
+  },
+  methods: {
+    navigateToMovieDetail(movie) {
+      // store._mutations.setMovieDetail(movie);
+      store.commit('setMovieDetail', movie);
+    }
+  },
   setup() {
     const movieLists = ref([]);
     const isLoaded = ref(false);
+    const pagination = ref({
+      page: 1,
+      total_pages: 0,
+      total_results: 0,
+      current_page_last: 0,
+    });
+    onMounted(async () => {
+      await store.dispatch('movies/fetchMovies');
+      pagination.value = store.state.movies.pagination;
+      movieLists.value = store.state.movies.discover;
+      isLoaded.value = store.state.movies.isLoaded;
+    });
 
-    async function fetchMovieLists() {
-      try {
-        const response = await fetch('https://api.themoviedb.org/3/discover/movie?api_key=b51b535b2fa399a23d7dfdf78f4f91c3&language=en-US', { method: 'GET' });
-        const data = await response.json();
-        movieLists.value = data.results;
-        isLoaded.value = true;
-        console.log('hasil -->', data.results);
-      } catch (error) {
-        console.error('Error fetching movie list:', error);
-      }
-    }
-
-    onMounted(fetchMovieLists);
-
-    return { movieLists, isLoaded };
+    return { movieLists, isLoaded, pagination };
   },
 }
 </script>

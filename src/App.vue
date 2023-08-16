@@ -27,7 +27,7 @@ export default {
     }
 
     supabase.auth.onAuthStateChange((_, session) => {
-      store.methods.setuser(session);
+      store.methods.setUser(session);
       appReady.value=true;
     });
 
