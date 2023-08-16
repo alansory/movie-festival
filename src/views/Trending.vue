@@ -35,7 +35,7 @@
           </button>
           <div class="movie-info">
             <p class="movie-title">{{ movie.title }}</p>
-            <p class="view-count">{{ movie.view_count }} views</p>
+            <p class="views-count">{{ movie.view_count }} views</p>
           </div>
         </router-link>
       </div>

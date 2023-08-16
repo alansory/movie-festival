@@ -1,7 +1,7 @@
 <template>
   <div class="overlay-main show"></div>
   <div class="expansion-section section active" v-if="isLoaded">
-    <button class="back-btn btn btn-hv">
+    <button class="back-btn btn btn-hv" @click="goBack">
       <i class="bx bx-chevron-left"></i> Back
     </button>
     <div class="video-overview-container">
@@ -62,7 +62,7 @@
         <button class="btn btn-md flx flx-cntr bookmark-btn">
           <figure class="container-bookmark flx flx-cntr flx-gap-md">
             <i class="icon-bm bc bx-book-bookmark"></i>
-            <figcaption class="bookmark-text">Bookmark</figcaption>
+            <figcaption class="bookmark-text">Vote</figcaption>
           </figure>
         </button>
       </div>
@@ -79,6 +79,7 @@
 <script>
 import store from '@/store/index';
 import { ref, onMounted } from 'vue';
+import { useRouter } from "vue-router";
 export default {
   name: "MovieDetail",
   props: {
@@ -87,6 +88,10 @@ export default {
   setup(props){
     const detail = ref({});
     const isLoaded = ref(false);
+    const router = useRouter();
+    const goBack = () => {
+      router.go(-1);
+    };
     onMounted(async () => {
       await store.dispatch('movies/fetchDetail', props.movieId);
       detail.value = store.state.movies.detail;
@@ -94,7 +99,7 @@ export default {
       const currentViewCount = store.state.movies.detail.view_count;
       await store.dispatch('movies/updateMovie', { id: props.movieId, view_count: currentViewCount + 1 });
     });
-    return { detail, isLoaded };
+    return { detail, isLoaded, goBack };
   }
  
 }

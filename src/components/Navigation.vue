@@ -45,22 +45,22 @@
           <h3 class="secondary-title expand-secondary">Expand</h3>
         </li>
         <li class="nav-list">
-          <router-link data-page="home" class="nav-btn" :to="{ name : 'Home' }">
-            <i class="bx bx-home"></i>
+          <router-link data-page="home" class="nav-btn" :to="{ name : 'Home' }" @click="setActivePage('home')">
+            <i class="bx bx-home" :class="{ active: activePage === 'home' }"></i>
             <h3 class="nav-title">Home</h3>
           </router-link>
           <h3 class="secondary-title">Home</h3>
         </li>
         <li class="nav-list">
-          <router-link data-page="trending" class="nav-btn" :to="{ name : 'Trending' }">
-            <i class="bx bxs-hot"></i>
+          <router-link data-page="trending" class="nav-btn" :to="{ name : 'Trending' }" @click="setActivePage('trending')">
+            <i class="bx bxs-hot" :class="{ active: activePage === 'trending' }"></i>
             <h3 class="nav-title">Trending</h3>
           </router-link>
           <h3 class="secondary-title">Trending</h3>
         </li>
         <li class="nav-list">
-          <a data-page="movies-pop" class="nav-btn">
-            <i class='bx bxs-user-account'></i>
+          <a data-page="movies-pop" class="nav-btn" @click="setActivePage('login')">
+            <i class='bx bxs-user-account' :class="{ active: activePage === 'login' }"></i>
             <h3 class="nav-title">Login</h3>
           </a>
           <h3 class="secondary-title">Login</h3>
@@ -89,6 +89,7 @@ export default {
     },
   },
   setup(){
+    const activePage = ref(null);
     const isActive = ref(false);
     const router = useRouter();
     const navigationRef = ref(null);
@@ -97,12 +98,15 @@ export default {
       await supabase.auth.signOut();
       router.push({name : "Home"});
     };
+    const setActivePage = (page) => {
+      activePage.value = page;
+    };
     onClickOutside(navigationRef, () => {
       if (isActive.value) {
         isActive.value = false;
       }
     });
-    return  { logout, user, isActive, navigationRef };
+    return  { logout, user, isActive, navigationRef, activePage, setActivePage };
   }
 }
 </script>
