@@ -19,6 +19,7 @@
                 <i class="bx bx-play"></i>
                 <p class="btn-title">Watch Trailer</p>
               </button>
+              <p class="view-count">{{ detail.view_count }} Views</p>
             </figure>
             <div class="overlay-poster"></div>
           </figure>

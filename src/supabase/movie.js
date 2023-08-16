@@ -4,7 +4,23 @@ import { supabase } from "./init";
 export const fetchMovieLists = async () => {
   const data = ref([]); // Create a reactive ref for your fetched data
   try {
-    const { data: movies, error } = await supabase.from("movie").select("*");
+    const { data: movies, error } = await supabase.from("movie").select("*").order('id', { ascending: true });
+    if (error) {
+      throw error;
+    }
+    // Assign the fetched data to the reactive ref
+    data.value = movies;
+  } catch (error) {
+    console.warn(error.message);
+  }
+
+  return data; // Return the reactive ref to use in your component
+};
+
+export const fetchTrandingLists = async () => {
+  const data = ref([]); // Create a reactive ref for your fetched data
+  try {
+    const { data: movies, error } = await supabase.from("movie").select("*").order('view_count', { ascending: false });
     if (error) {
       throw error;
     }

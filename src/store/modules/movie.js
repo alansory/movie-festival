@@ -1,7 +1,7 @@
-import { fetchMovieLists, fetchMovieDetail, updateMovie } from '@/supabase/movie';
+import { fetchMovieLists, fetchTrandingLists, fetchMovieDetail, updateMovie } from '@/supabase/movie';
 
 const state = {
-  discover:[],
+  list:[],
   pagination:{
     page:0,
     total_pages:0,
@@ -21,6 +21,10 @@ const actions = {
     const data = await fetchMovieLists();
     commit('setMovies', data);
   },
+  async fetchTrending({ commit }) {
+    const data = await fetchTrandingLists();
+    commit('setMovies', data);
+  },
   async fetchDetail({ commit }, id) {
     const data = await fetchMovieDetail(id);
     commit('setDetail', data)
@@ -34,7 +38,7 @@ const actions = {
 const mutations = {
   setMovies(state, data) {
     state.isLoaded = true;
-    state.discover = data;
+    state.list = data;
     // state.pagination.page = data.page;
     // state.pagination.total_pages = data.total_pages;
     // state.pagination.total_results = data.total_results;

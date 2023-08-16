@@ -168,6 +168,10 @@
   font-size: 1.8rem;
 }
 
+.view-count {
+  color: white;
+}
+
 /**************** GENRE TAGS ***************/
 
 .poster-genre-tags {

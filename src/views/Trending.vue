@@ -3,7 +3,7 @@
   <section class="discover-section">
     <section class="section-header">
       <header class="header-filter">
-        <h1 class="header-title">Discover Movies</h1>
+        <h1 class="header-title">Trending Movies</h1>
         <button class="header-filter-btn">Genre</button>
       </header>
       <div class="header-btns-container">
@@ -35,6 +35,7 @@
           </button>
           <div class="movie-info">
             <p class="movie-title">{{ movie.title }}</p>
+            <p class="view-count">{{ movie.view_count }} views</p>
           </div>
         </router-link>
       </div>
@@ -63,7 +64,7 @@ import store from '@/store/index';
 import { ref, onMounted } from 'vue';
 import Pagination from '../components/paginations/Pagination';
 export default{
-  name: "Home",
+  name: "Trending",
   components:{
     Pagination
   },
@@ -83,7 +84,7 @@ export default{
       current_page_last: 0,
     });
     onMounted(async () => {
-      await store.dispatch('movies/fetchMovies');
+      await store.dispatch('movies/fetchTrending');
       pagination.value = store.state.movies.pagination;
       movieLists.value = store.state.movies.list;
       isLoaded.value = store.state.movies.isLoaded;

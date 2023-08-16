@@ -1,8 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
+import Trending from '../views/Trending.vue';
 import MovieDetail from '../components/movies/MovieDetail.vue';
 const routes = [
   {
+    props: true,
     path: '/',
     name: 'Home',
     component: Home
@@ -12,6 +14,12 @@ const routes = [
     path: '/movie/:movieId',
     name: 'MovieDetail',
     component: MovieDetail
+  },
+  {
+    props: true,
+    path: '/trending',
+    name: 'Trending',
+    component: Trending
   }
 ]
 

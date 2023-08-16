@@ -52,18 +52,18 @@
           <h3 class="secondary-title">Home</h3>
         </li>
         <li class="nav-list">
-          <a data-page="trending" class="nav-btn">
+          <router-link data-page="trending" class="nav-btn" :to="{ name : 'Trending' }">
             <i class="bx bxs-hot"></i>
             <h3 class="nav-title">Trending</h3>
-          </a>
+          </router-link>
           <h3 class="secondary-title">Trending</h3>
         </li>
         <li class="nav-list">
           <a data-page="movies-pop" class="nav-btn">
-            <i class="bx bx-movie"></i>
-            <h3 class="nav-title">Popular</h3>
+            <i class='bx bxs-user-account'></i>
+            <h3 class="nav-title">Login</h3>
           </a>
-          <h3 class="secondary-title">Popular</h3>
+          <h3 class="secondary-title">Login</h3>
         </li>
       </ul>
     </div>
