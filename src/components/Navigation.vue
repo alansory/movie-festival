@@ -59,10 +59,10 @@
           <h3 class="secondary-title">Trending</h3>
         </li>
         <li class="nav-list">
-          <a data-page="movies-pop" class="nav-btn" @click="setActivePage('login')">
+          <router-link data-page="login" class="nav-btn" :to="{ name : 'Login' }" @click="setActivePage('login')">
             <i class='bx bxs-user-account' :class="{ active: activePage === 'login' }"></i>
             <h3 class="nav-title">Login</h3>
-          </a>
+          </router-link>
           <h3 class="secondary-title">Login</h3>
         </li>
       </ul>

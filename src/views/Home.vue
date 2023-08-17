@@ -26,7 +26,7 @@
           <img 
             class="movie-img"
             :alt="movie.title"
-            :src="'https://image.tmdb.org/t/p/w1280' + movie.poster_path"
+            :src="movie.poster_path ? 'https://image.tmdb.org/t/p/w1280' + movie.poster_path : require('@/assets/images/img-notfound.jpg')"
           />
           <div class="overlay-card"></div>
           <button class="expand-btn">

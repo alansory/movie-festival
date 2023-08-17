@@ -5,7 +5,7 @@
 
 <script>
 import { ref } from 'vue';
-import store from "./store/index";
+// import store from "./store/index";
 import { supabase } from "./supabase/init";
 import Navigation from './components/Navigation.vue'
 
@@ -27,7 +27,8 @@ export default {
     }
 
     supabase.auth.onAuthStateChange((_, session) => {
-      store.methods.setUser(session);
+      // store.methods.setUser(session);
+      console.log('masuk -->', session)
       appReady.value=true;
     });
 
