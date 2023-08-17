@@ -33,6 +33,7 @@
 import { ref, onMounted } from "vue";
 import { supabase } from "@/supabase/init";
 export default {
+  name:"MovieForm",
   props: {
     formTitle: String,
     editMode: Boolean,

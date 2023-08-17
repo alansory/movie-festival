@@ -56,6 +56,7 @@ import store from '@/store/index';
 import { ref, watch, onMounted } from 'vue';
 import Pagination from '../components/paginations/Pagination';
 export default {
+  name:"Dashboard",
   components:{
     Pagination
   },

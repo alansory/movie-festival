@@ -74,7 +74,7 @@
             <i class='bx bxs-user-account' :class="{ active: activePage === 'login' }"></i>
             <h3 class="nav-title">Login</h3>
           </router-link>
-          <h3 class="secondary-title">Login</h3>
+          <h3 class="secondary-title">{{ isLogin ? "Logout" : "Login" }}</h3>
         </li>
       </ul>
     </div>

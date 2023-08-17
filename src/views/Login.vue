@@ -24,6 +24,7 @@
 <script>
 import { supabase } from "../supabase/init";
 export default {
+  name:"Login",
   data() {
     return {
       email: '',

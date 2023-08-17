@@ -27,6 +27,7 @@
 <script>
 import { supabase } from "../supabase/init";
 export default {
+  name:"Register",
   data() {
     return {
       email: '',
