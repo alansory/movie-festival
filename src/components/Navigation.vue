@@ -58,6 +58,13 @@
           </router-link>
           <h3 class="secondary-title">Trending</h3>
         </li>
+        <li class="nav-list" v-if="isLogin">
+          <router-link data-page="dashboard" class="nav-btn" :to="{ name : 'Dashboard' }" @click="setActivePage('dashboard')">
+            <i class="bx bxs-movie" :class="{ active: activePage === 'dashboard' }"></i>
+            <h3 class="nav-title">Dashboard</h3>
+          </router-link>
+          <h3 class="secondary-title">Dashboard</h3>
+        </li>
         <li class="nav-list">
           <router-link v-if="isLogin" class="nav-btn" :to="{ name: 'Login' }" @click="logout">
             <i class='bx bxs-user-account' :class="{ active: activePage === 'login' }"></i>

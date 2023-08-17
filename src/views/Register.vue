@@ -55,9 +55,9 @@ export default {
           this.successMessage=null;
         } else {
           this.isLoading=false;
-          this.errorMessage=error.message;
+          this.errorMessage=null;
           this.successMessage='Register successfully!';
-          this.$router.push({ name: "Login" });
+          this.$router.push({ name: "Dashboard" });
         }
       } catch (error) {
         this.isLoading=false;
