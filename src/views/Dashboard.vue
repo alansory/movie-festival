@@ -45,13 +45,20 @@
       <div class="loading-spinner"></div>
       <div class="loading-spinner2"></div>
     </div>
+    <section v-if="isLoaded" class="movie-pagination">
+      <Pagination :pagination="pagination" :fetchLists="fetchList"/>
+    </section>
   </div>
 </template>
 
 <script>
 import store from '@/store/index';
 import { ref, watch, onMounted } from 'vue';
+import Pagination from '../components/paginations/Pagination';
 export default {
+  components:{
+    Pagination
+  },
   props:{
     searchTerm: String
   },
@@ -91,7 +98,16 @@ export default {
       movies.value = store.state.movies.list;
       isLoaded.value = store.state.movies.isLoaded;
     });
-    return { movies, pagination, searchQuery, isLoaded };
+    async function fetchList(page, itemsPerPage) {
+      try {
+        await store.dispatch('movies/fetchMovies', page, itemsPerPage);
+        movies.value = store.state.movies.list;
+        pagination.value = store.state.movies.pagination;
+      } catch (error) {
+        console.error('Error fetching movie list:', error.message);
+      }
+    }
+    return { movies, pagination, searchQuery, isLoaded, fetchList };
   }
 };
 </script>

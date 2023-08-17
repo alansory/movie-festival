@@ -45,7 +45,7 @@
         <div class="loading-spinner2"></div>
       </div>
       <section v-if="isLoaded" class="movie-pagination">
-        <Pagination :pagination="pagination" />
+        <Pagination :pagination="pagination" :fetchLists="fetchList"/>
       </section>
       <footer>
         <p>
@@ -89,7 +89,17 @@ export default{
       isLoaded.value = store.state.movies.isLoaded;
     });
 
-    return { movieLists, isLoaded, pagination };
+    async function fetchList(page, itemsPerPage) {
+      try {
+        await store.dispatch('movies/fetchTrending', page, itemsPerPage);
+        movieLists.value = store.state.movies.list;
+        pagination.value = store.state.movies.pagination;
+      } catch (error) {
+        console.error('Error fetching movie list:', error.message);
+      }
+    }
+
+    return { movieLists, isLoaded, pagination, fetchList };
   },
 }
 </script>

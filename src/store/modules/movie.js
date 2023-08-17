@@ -17,12 +17,12 @@ const state = {
 const getters = {};
 
 const actions = {
-  async fetchMovies({ commit }) {
-    const data = await fetchMovieLists();
+  async fetchMovies({ commit }, page, itemsPerPage) {
+    const data = await fetchMovieLists(page, itemsPerPage);
     commit('setMovies', data);
   },
-  async fetchTrending({ commit }) {
-    const data = await fetchTrandingLists();
+  async fetchTrending({ commit }, page, itemsPerPage) {
+    const data = await fetchTrandingLists(page, itemsPerPage);
     commit('setMovies', data);
   },
   async fetchDetail({ commit }, id) {
@@ -43,9 +43,6 @@ const mutations = {
   setMovies(state, data) {
     state.isLoaded = true;
     state.list = data;
-    // state.pagination.page = data.page;
-    // state.pagination.total_pages = data.total_pages;
-    // state.pagination.total_results = data.total_results;
   },
   setDetail(state, data){
     state.detail = data;

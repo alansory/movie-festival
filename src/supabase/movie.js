@@ -1,10 +1,13 @@
 import { ref } from "vue";
 import { supabase } from "./init";
 
-export const fetchMovieLists = async () => {
+export const fetchMovieLists = async (page=1, itemsPerPage=18) => {
   const data = ref([]); // Create a reactive ref for your fetched data
   try {
-    const { data: movies, error } = await supabase.from("movie").select("*").order('id', { ascending: true });
+    const { data: movies, error } = await supabase.from("movie")
+    .select("*")
+    .order('id', { ascending: true })
+    .range((page - 1) * itemsPerPage, page * itemsPerPage - 1);
     if (error) {
       throw error;
     }
@@ -13,14 +16,16 @@ export const fetchMovieLists = async () => {
   } catch (error) {
     console.warn(error.message);
   }
-
   return data; // Return the reactive ref to use in your component
 };
 
-export const fetchTrandingLists = async () => {
+export const fetchTrandingLists = async (page=1, itemsPerPage=18) => {
   const data = ref([]); 
   try {
-    const { data: movies, error } = await supabase.from("movie").select("*").order('view_count', { ascending: false });
+    const { data: movies, error } = await supabase.from("movie")
+    .select("*")
+    .order('view_count', { ascending: false })
+    .range((page - 1) * itemsPerPage, page * itemsPerPage - 1);
     if (error) {
       throw error;
     }
