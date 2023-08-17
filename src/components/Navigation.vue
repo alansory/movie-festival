@@ -59,7 +59,11 @@
           <h3 class="secondary-title">Trending</h3>
         </li>
         <li class="nav-list">
-          <router-link data-page="login" class="nav-btn" :to="{ name : 'Login' }" @click="setActivePage('login')">
+          <router-link v-if="isLogin" class="nav-btn" :to="{ name: 'Login' }" @click="logout">
+            <i class='bx bxs-user-account' :class="{ active: activePage === 'login' }"></i>
+            <h3 class="nav-title">Logout</h3>
+          </router-link>
+          <router-link v-else class="nav-btn" :to="{ name: 'Login' }" @click="setActivePage('login')">
             <i class='bx bxs-user-account' :class="{ active: activePage === 'login' }"></i>
             <h3 class="nav-title">Login</h3>
           </router-link>
@@ -72,7 +76,7 @@
 
 <script>
 import store from "../store/index";
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import { supabase } from "../supabase/init";
 import { useRouter } from "vue-router";
 import { onClickOutside } from '@vueuse/core';
@@ -94,10 +98,11 @@ export default {
     const router = useRouter();
     const navigationRef = ref(null);
     const searchTerm = ref('');
+    const isLogin = ref(false);
     const user = computed (() => store.state.user);
     const logout = async () => {
       await supabase.auth.signOut();
-      router.push({name : "Home"});
+      router.push({name : "Login"});
     };
     const setActivePage = (page) => {
       activePage.value = page;
@@ -112,7 +117,14 @@ export default {
       searchTerm.value = '';
     };
 
-    return  { logout, user, isActive, navigationRef, activePage, setActivePage, searchTerm, submitSearch };
+    watch(user, (newValue) => {
+        if(newValue){
+          isLogin.value=true;
+        } else{
+          isLogin.value=false;
+        }
+    });
+    return  { logout, isLogin, isActive, navigationRef, activePage, setActivePage, searchTerm, submitSearch };
   }
 }
 </script>

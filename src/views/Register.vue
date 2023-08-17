@@ -1,21 +1,24 @@
 <template>
-  <div class="login-container">
-    <form @submit.prevent="login" class="login-form">
-      <h2>Login</h2>
+  <div class="register-container">
+    <form @submit.prevent="register" class="register-form">
+      <h2>Register</h2>
       <label for="email">Email:</label>
       <input v-model="email" type="email" required />
 
       <label for="password">Password:</label>
       <input v-model="password" type="password" required />
 
+      <label for="confirmPassword">Confirm Password:</label>
+      <input v-model="confirmPassword" type="password" required />
+
       <button type="submit" :disabled="isLoading">
-        {{ isLoading ? 'Submitting...' : 'Login' }}
+        {{ isLoading ? 'Submitting...' : 'Register' }}
       </button>
       <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
       <p v-if="successMessage" class="success-message">{{ successMessage }}</p>
       <p class="register-link">
-        Don't have an account?
-        <router-link to="/register">Register</router-link>
+        Already have an account? 
+        <router-link to="/login">Login</router-link>
       </p>
     </form>
   </div>
@@ -29,15 +32,20 @@ export default {
       email: '',
       password: '',
       isLoading:false,
+      confirmPassword: '',
       errorMessage:null,
       successMessage:null,
     };
   },
   methods: {
-    async login() {
+    async register() {
       try {
         this.isLoading=true;
-        const { error, session } = await supabase.auth.signIn({
+        if (this.password !== this.confirmPassword) {
+          console.error('Passwords do not match');
+          return;
+        }
+        const { error } = await supabase.auth.signUp({
           email: this.email,
           password: this.password,
         });
@@ -47,10 +55,9 @@ export default {
           this.successMessage=null;
         } else {
           this.isLoading=false;
-          this.errorMessage=null;
-          this.successMessage='Login successfully!';
-          await localStorage.setItem('supabaseToken', session.access_token);
-          this.$router.push({ name: "Dashboard" });
+          this.errorMessage=error.message;
+          this.successMessage='Register successfully!';
+          this.$router.push({ name: "Login" });
         }
       } catch (error) {
         this.isLoading=false;
@@ -64,14 +71,14 @@ export default {
 </script>
 
 <style scoped>
-.login-container {
+.register-container {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
 }
 
-.login-form {
+.register-form {
   width: 620px;
   padding: 45px;
   border: 1px solid #ccc;

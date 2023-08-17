@@ -10,9 +10,9 @@ const store = createStore({
     movieDetail: null
   },
   mutations: {
-    // setUser(state, payload) {
-    //   state.user = payload ? payload.user : null;
-    // },
+    setUser(state, payload) {
+      state.user = payload ? payload.user : null;
+    },
     setMovieDetail(state, movieDetail) {
       state.movieDetail = movieDetail;
     },

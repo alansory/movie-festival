@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
 import Search from '../views/Search.vue';
 import Login from '../views/Login.vue';
+import Register from '../views/Register.vue';
 import Trending from '../views/Trending.vue';
 import Dashboard from '../views/Dashboard.vue';
 import MovieForm from '../views/MovieForm.vue';
@@ -38,6 +39,12 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login
+  },
+  {
+    props: true,
+    path: '/register',
+    name: 'Register',
+    component: Register
   },
   {
     props: true,
