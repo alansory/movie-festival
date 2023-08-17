@@ -4,7 +4,7 @@
     data-page-num="1"
     class="pag-btns btn-arrow"
   >
-    Page {{ pagination.page }}
+    Previous
   </button>
   <button
     data-page-btn="back"
@@ -18,7 +18,7 @@
     class="pag-btns btn-arrow"
     :data-page-num="pagination.current_page_last - 1"
   >
-    Page {{ pagination.current_page_last - 1 }}
+    Next
   </button>
 </template>
 

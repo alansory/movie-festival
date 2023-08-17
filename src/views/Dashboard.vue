@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard">
     <h3 class="dashboard-title">Movie List</h3>
-    <div class="dashboard-content">
+    <div class="dashboard-content" v-if="isLoaded">
       <div class="movie-list">
         <div class="search-add-container">
           <div class="search-bar">
@@ -40,6 +40,11 @@
         </div>
       </div>
     </div>
+    <div v-else class="loading">
+      <div class="placeholder"></div>
+      <div class="loading-spinner"></div>
+      <div class="loading-spinner2"></div>
+    </div>
   </div>
 </template>
 
@@ -66,6 +71,7 @@ export default {
   },
   setup(){
     const movies = ref([]);
+    const isLoaded = ref(false);
     const pagination = ref({
       page: 1,
       total_pages: 0,
@@ -77,13 +83,15 @@ export default {
       await store.dispatch('movies/searchMovie', newSearchTerm);
       pagination.value = store.state.movies.pagination;
       movies.value = store.state.movies.list;
+      isLoaded.value = store.state.movies.isLoaded;
     });
     onMounted(async () => {
       await store.dispatch('movies/fetchMovies');
       pagination.value = store.state.movies.pagination;
       movies.value = store.state.movies.list;
+      isLoaded.value = store.state.movies.isLoaded;
     });
-    return { movies, pagination, searchQuery };
+    return { movies, pagination, searchQuery, isLoaded };
   }
 };
 </script>

@@ -39,9 +39,8 @@
         </div>
       </div>
       <ul class="poster-genre-tags">
-        <li class="btn cursor-def active poster-genre-tag">Action</li>
-        <li class="btn cursor-def active poster-genre-tag">Adventure</li>
-        <li class="btn cursor-def active poster-genre-tag">Science Fiction</li>
+        <li class="btn cursor-def active poster-genre-tag">{{ formatGenre(detail.genre) }}</li>
+        <li class="btn cursor-def active poster-genre-tag" v-if="detail.artist">{{ detail.artist }}</li>
       </ul>
       <div class="expand-sec movie-stats">
         <article class="rating-container flx flx-clmn flx-cntr">
@@ -84,6 +83,11 @@ export default {
   name: "MovieDetail",
   props: {
     movieId: String
+  },
+  methods:{
+    formatGenre(genre) {
+      return genre.charAt(0).toUpperCase() + genre.slice(1).toLowerCase();
+    }
   },
   setup(props){
     const detail = ref({});

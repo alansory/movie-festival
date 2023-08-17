@@ -51,11 +51,11 @@ export const searchMovie = async (q) => {
 export const fetchMovieDetail = async (id) => {
   const data = ref({});
   try {
-    const { data: movies, error } = await supabase.from("movie").select("*").eq("id", id);
+    const { data: movies, error } = await supabase.from("movie").select("*").eq("id", id).single();
     if (error) {
       throw error;
     }
-    data.value = movies[0];
+    data.value = movies;
   } catch (error) {
     console.warn(error.message);
   }
